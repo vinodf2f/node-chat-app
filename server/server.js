@@ -26,7 +26,7 @@ const port = process.env.PORT || 3000;
     socket.on('createMessage', (message, callback) => {
       console.log('createMessage', message);
       io.emit('newMessage', generateMessage(message.from, message.text));
-      callback('This is from the server.');
+      callback();
     });
 
     socket.on('createLocationMessage', (coords) => {
