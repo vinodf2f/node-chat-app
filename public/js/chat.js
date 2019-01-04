@@ -16,7 +16,17 @@ function scrollToBottom() {
 }
 
 socket.on('connect', function () {
-  console.log('Connected to server');
+  var params = jQuery.deparam(window.location.search);
+  // console.log(params);
+
+  socket.emit('join', params, function (err) {
+    if (err) {
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log('No error');
+    }
+  });
 });
 
 socket.on('disconnect', function () {
@@ -26,7 +36,7 @@ socket.on('disconnect', function () {
 socket.on('newMessage', function (message) {
 
 let formattedTime = moment(message.createdAt).format('h:mm a');
-let template = jQuery('#message-template').html();
+let template = $('#message-template').html();
 let html = Mustache.render(template, {
   text: message.text,
   from: message.from,
