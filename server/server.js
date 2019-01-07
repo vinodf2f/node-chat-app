@@ -25,9 +25,18 @@ io.on('connection', (socket) => {
 
 
     socket.on('join', (params, callback) => {
-        console.log(params);
+        // console.log(params);
+        let user = users.getUserByName(params.name);
+        
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return callback('Name and room Name are required');
+        } else if (user) {
+            let existUser = users.getUser(user.id);
+            if (existUser.room === params.room) {
+                return callback('UserName is taken plz choose another');
+            }
+            
+            
         }
 
         socket.join(params.room);
